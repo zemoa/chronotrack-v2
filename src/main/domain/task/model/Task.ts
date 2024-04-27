@@ -6,10 +6,26 @@ export class Task {
     private _workingList: WorkingTaskItems[];
 
     get id(): string {
-        return this.id
+        return this._id
     }
 
-    set _setId(id: string) {
+    get name(): string {
+        return this._name
+    }
+
+    get workingList(): WorkingTaskItems[] {
+        return this._workingList
+    }
+
+    _setId(id: string) {
         this._id = id
+    }
+
+    _setName(name: string) {
+        this._name = name
+    }
+
+    _setWorkingList(workingList: WorkingTaskItems[]) {
+        this._workingList = workingList
     }
 }
