@@ -4,11 +4,7 @@ import {ulid} from 'ulid'
 export class CreateTaskOperation implements TaskOperation {
     constructor(private name: string) {}
     execute(task?: Task): Task {
-        const newTask = new Task()
-        const id = ulid()
-        newTask._setId(ulid())
-        newTask._setName(this.name)
-        newTask._setWorkingList([])
+        const newTask = new Task(ulid(), this.name)
         return newTask
     }
 

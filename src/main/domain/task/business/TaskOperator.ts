@@ -7,4 +7,8 @@ export class TaskOperator {
     apply(operation: TaskOperation): void {
         this.task = operation.execute(this.task)
     }
+
+    retrieve(): Task | undefined {
+        return this.task
+    }
 }

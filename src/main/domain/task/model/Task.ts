@@ -1,9 +1,7 @@
-import { WorkingTaskItems } from "./WorkingTaskItem";
+import { Workload } from "./Workload";
 
 export class Task {
-    private _id: string;
-    private _name: string;
-    private _workingList: WorkingTaskItems[];
+    constructor(private _id: string, private _name: string, private _workloads: Workload[] = []) {}
 
     get id(): string {
         return this._id
@@ -13,19 +11,15 @@ export class Task {
         return this._name
     }
 
-    get workingList(): WorkingTaskItems[] {
-        return this._workingList
-    }
-
-    _setId(id: string) {
-        this._id = id
+    get workloads(): Workload[] {
+        return this._workloads
     }
 
     _setName(name: string) {
         this._name = name
     }
 
-    _setWorkingList(workingList: WorkingTaskItems[]) {
-        this._workingList = workingList
+    _setWorkloads(workloads: Workload[]) {
+        this._workloads = workloads
     }
 }

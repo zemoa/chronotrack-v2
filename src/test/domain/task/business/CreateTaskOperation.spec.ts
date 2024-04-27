@@ -8,6 +8,6 @@ describe('Test for creating a Task', () => {
         expect(result).toBeDefined()
         expect(result.id).toBeDefined()
         expect(result.name).toBe(name)
-        expect(result.workingList.length).toBe(0)
+        expect(result.workloads.length).toBe(0)
     })
 })
