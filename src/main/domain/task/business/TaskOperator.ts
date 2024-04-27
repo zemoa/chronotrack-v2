@@ -5,6 +5,6 @@ export class TaskOperator {
     constructor(private task?: Task) {}
 
     apply(operation: TaskOperation): void {
-        operation.execute(this.task)
+        this.task = operation.execute(this.task)
     }
 }

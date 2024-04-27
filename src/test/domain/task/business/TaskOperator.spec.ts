@@ -4,7 +4,7 @@ import { Task } from "app/domain/task/model/Task"
 
 describe('Test for Task Operator', () => {
     const mockedOperation : TaskOperation = {
-        execute: jest.fn((task) => {})
+        execute: jest.fn((task) => new Task())
     }
     test('test that execute on operation is called when an operation is applied', () => {
         const sut = new TaskOperator(new Task())
