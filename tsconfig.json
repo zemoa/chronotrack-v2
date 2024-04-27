@@ -12,6 +12,10 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "paths": {
+      "app/*": ["./src/*"],
+      "test/*": ["./tests/*"]
+    }
   },
 }
