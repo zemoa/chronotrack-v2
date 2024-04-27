@@ -1,6 +1,6 @@
 import { Task } from "app/domain/task/model/Task"
-import { TaskRepository } from "../../../src/domain/task/repository/TaskRepository"
-import { UCListTasks } from "../../../src/use_case/task/uc_list_task"
+import { TaskRepository } from "app/domain/task/repository/TaskRepository"
+import { UCListTasks } from "app/use_case/task/uc_list_task"
 
 describe('Tests for UC List tasks', () => {
     let taskRepository: TaskRepository

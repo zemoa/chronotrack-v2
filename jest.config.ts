@@ -5,9 +5,8 @@ const config: Config.InitialOptions = {
   transform: {
   '^.+\\.tsx?$': 'ts-jest'
   },
-  roots: [
-    "./",
-    "src/"
-  ]
+  moduleNameMapper : {
+    'app/(.*)': '<rootDir>/src/main/$1'
+  }
 };
 export default config;

@@ -13,9 +13,11 @@
     "resolveJsonModule": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "rootDirs": [
+      "src/main"
+    ],
     "paths": {
-      "app/*": ["./src/*"],
-      "test/*": ["./tests/*"]
+      "app/*": ["./src/main/*"],
     }
   },
 }

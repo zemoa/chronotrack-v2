@@ -1,3 +1,5 @@
+import { WorkingTaskItems } from "./WorkingTaskItem";
+
 export class Task {
     private _id: string;
     private _name: string;
