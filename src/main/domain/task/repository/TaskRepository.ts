@@ -5,4 +5,5 @@ export interface TaskRepository {
     findById(id: string): Task | undefined
     create(task: Task): Task
     delete(task: Task): void
+    update(task: Task): Task
 }
