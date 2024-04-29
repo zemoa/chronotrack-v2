@@ -7,18 +7,18 @@ describe('Tests for UC List tasks', () => {
 
     test("Given an user's id and 3 tasks saved when uc is called then it should return 3 tasks", () => {
         let taskRepository = mock<TaskRepository>()
-        taskRepository.findByUser.mockReturnValue([new Task("123", "a name"), new Task("123", "a name"), new Task("123", "a name")])
+        taskRepository.findAll.mockReturnValue([new Task("123", "a name"), new Task("123", "a name"), new Task("123", "a name")])
 
         const sut = new UCListTasks(taskRepository);
-        const tasksList = sut.execute("123");
+        const tasksList = sut.execute();
         expect(tasksList.length).toBe(3)
     })
 
     test("Given an user's id and 0 tasks saved when uc is called then it should return 0 tasks", () => {
         const taskRepository = mock<TaskRepository>()
-        taskRepository.findByUser.mockReturnValue([])
+        taskRepository.findAll.mockReturnValue([])
         const sut = new UCListTasks(taskRepository);
-        const tasksList = sut.execute("123");
+        const tasksList = sut.execute();
         expect(tasksList.length).toBe(0)
     })
 })
