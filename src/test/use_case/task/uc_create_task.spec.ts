@@ -1,3 +1,4 @@
+import { CreateTaskOperation } from "app/domain/task/business/CreateTaskOperation";
 import { TaskOperator } from "app/domain/task/business/TaskOperator";
 import { TaskOperatorFactory } from "app/domain/task/business/TaskOperatorFactory";
 import { TaskRepository } from "app/domain/task/repository/TaskRepository"
@@ -19,5 +20,6 @@ describe("UC creating a task", () => {
         const task = sut.execute("name")
 
         expect(taskRepository.create).toHaveBeenCalledTimes(1)
+        expect(taskOperator.apply).toHaveBeenCalledWith(new CreateTaskOperation("name"))
     })
 })
