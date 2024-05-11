@@ -17,6 +17,6 @@ describe('Modiying a task operation', () => {
     test('Modifying empty task must throw error', () => {
         const sut = new ModifyTaskOperation({name: "The new name"})
 
-        expect(() => sut.execute()).toThrow(new BadOperationException("Cannot apply modiying task on undefined task"))
+        expect(() => sut.execute()).toThrow(new BadOperationException("Cannot apply modiying task on undefined task", ''))
     })
 })

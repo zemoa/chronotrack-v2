@@ -22,4 +22,15 @@ export class Task {
     _setWorkloads(workloads: Workload[]) {
         this._workloads = workloads
     }
+
+    get lastWorkload(): Workload | undefined {
+        return this._workloads.sort((a, b) => {
+            if(a.start < b.start) {
+                return 1
+            } else if (a.start > b.start) {
+                return -1
+            }
+            return 0
+        }).at(-1)
+    }
 }
