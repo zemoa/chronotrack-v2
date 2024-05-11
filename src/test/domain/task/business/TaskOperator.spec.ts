@@ -7,7 +7,7 @@ describe('Test for Task Operator', () => {
     test('test that execute on operation is called when an operation is applied', () => {
         const initialTask = new Task("123", "a name")
         const mockedOperation : TaskOperation = {
-            execute: jest.fn((task) => task)
+            execute: jest.fn((task?: Task) => task!)
         }
         const sut = new TaskOperator(initialTask)
         const spyOnExecute = jest.spyOn(mockedOperation, 'execute')
@@ -23,7 +23,7 @@ describe('Test for Task Operator', () => {
         sut.apply(mockedOperation)
         const result = sut.retrieve();
 
-        expect(result.id).toBe("421")
-        expect(result.name).toBe("other")
+        expect(result!.id).toBe("421")
+        expect(result!.name).toBe("other")
     })
 })

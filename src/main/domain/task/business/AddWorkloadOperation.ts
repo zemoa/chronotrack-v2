@@ -17,12 +17,12 @@ export class AddWorkloadOperation implements TaskOperation {
             throw new BadWorkloadStartDateException()
         }
 
-        if(this.start > this.end) {
-            throw new BadWorkloadEndDateException("End date must be greater than or equal to start date")
+        if(this.end && this.end <= this.start) {
+            throw new BadWorkloadEndDateException("End date must be greater than start date")
         }
 
         const lastWorkload = task.lastWorkload;
-        if(lastWorkload.end > this.start) {
+        if(lastWorkload && lastWorkload.end && lastWorkload.end > this.start) {
             throw new WorkloadCannotOverlapException();
         }
         task._setWorkloads([...task.workloads, new Workload(this.start, this.end)])

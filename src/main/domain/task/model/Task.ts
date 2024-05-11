@@ -31,6 +31,6 @@ export class Task {
                 return -1
             }
             return 0
-        }).findLast(() => true)
+        }).at(-1)
     }
 }

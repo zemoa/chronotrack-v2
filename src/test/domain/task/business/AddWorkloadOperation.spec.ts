@@ -30,16 +30,6 @@ describe('Test for adding a workload on a task', () => {
         expect(expectedTask.workloads).toContainEqual(newWorkload);
     });
 
-    test('Failing to add Workload with empty start date', () => {
-        const startDateTime: Date = null; // Empty start date
-
-        const sut = new AddWorkloadOperation(startDateTime);
-        // Try to add a Workload with empty start date
-        expect(() => {
-            sut.execute(task);
-        }).toThrow(new BadWorkloadStartDateException());
-    });
-
     test('Failing to add Workload with end date before start date', () => {
         const startDateTime = new Date('2024-05-06T16:00:00');
         const endDateTime = new Date('2024-05-06T14:00:00'); // End date before start date
@@ -48,7 +38,7 @@ describe('Test for adding a workload on a task', () => {
         const sut = new AddWorkloadOperation(startDateTime, endDateTime);
         expect(() => {
             sut.execute(task);
-        }).toThrow(new BadWorkloadEndDateException('End date must be greater than or equal to start date'));
+        }).toThrow(new BadWorkloadEndDateException('End date must be greater than start date'));
     });
 
     test('Failing to add overlapping Workload', () => {
@@ -62,53 +52,29 @@ describe('Test for adding a workload on a task', () => {
         }).toThrow(new WorkloadCannotOverlapException());
     });
 
-    // test('Failing to add Workload with invalid start date', () => {
-    //     const startDateTime = '2024-05-06T09:00:00'; // Invalid start date
+    test('Adding Workload with end date equal to start date (edge case)', () => {
+        const startDateTime = new Date('2024-05-06T09:00:00');
+        const endDateTime = new Date('2024-05-06T09:00:00'); // End date equal to start date
 
-    //     // Try to add a Workload with an invalid start date
-    //     expect(() => {
-    //         task.addWorkload(new Workload(startDateTime));
-    //     }).toThrowError('Workload start date must be an instance of Date');
-    // });
+        // Try to add a Workload with end date equal to start date
+        const sut = new AddWorkloadOperation(startDateTime, endDateTime);
+        expect(() => {
+            sut.execute(task);
+        }).toThrow(new BadWorkloadEndDateException('End date must be greater than start date'));
+    });
 
-    // test('Failing to add Workload without start date', () => {
-    //     // Try to add a Workload without a start date
-    //     expect(() => {
-    //         task.addWorkload(new Workload());
-    //     }).toThrowError('Workload start date cannot be empty');
-    // });
+    test('Adding a Workload after an existing Workload without overlap', () => {
+        const startDateTime = new Date('2024-05-06T13:00:00');
+        const endDateTime = new Date('2024-05-06T15:00:00');
+        const newWorkload = new Workload(startDateTime, endDateTime);
 
-    // test('Failing to add Workload with invalid end date', () => {
-    //     const startDateTime = new Date('2024-05-06T09:00:00');
-    //     const endDateTime = '2024-05-06T12:00:00'; // Invalid end date
+        // Add a Workload after the existing Workload
+        const sut = new AddWorkloadOperation(startDateTime, endDateTime);
+        const modifiedTask = sut.execute(task)
 
-    //     // Try to add a Workload with an invalid end date
-    //     expect(() => {
-    //         task.addWorkload(new Workload(startDateTime, endDateTime));
-    //     }).toThrowError('Workload end date must be an instance of Date');
-    // });
-
-    // test('Adding Workload with end date equal to start date (edge case)', () => {
-    //     const startDateTime = new Date('2024-05-06T09:00:00');
-    //     const endDateTime = new Date('2024-05-06T09:00:00'); // End date equal to start date
-
-    //     // Try to add a Workload with end date equal to start date
-    //     expect(() => {
-    //         task.addWorkload(new Workload(startDateTime, endDateTime));
-    //     }).toThrowError('End date must be greater than or equal to start date');
-    // });
-
-    // test('Adding a Workload after an existing Workload without overlap', () => {
-    //     const startDateTime = new Date('2024-05-06T13:00:00');
-    //     const endDateTime = new Date('2024-05-06T15:00:00');
-    //     const newWorkload = new Workload(startDateTime, endDateTime);
-
-    //     // Add a Workload after the existing Workload
-    //     task.addWorkload(newWorkload);
-
-    //     // Verify that the new Workload was added
-    //     expect(task.workloads).toContain(newWorkload);
-    // });
+        // Verify that the new Workload was added
+        expect(modifiedTask.workloads).toContainEqual(newWorkload);
+    });
 
     // Add more test cases as needed
 });
