@@ -2,7 +2,6 @@ import { CreateTaskOperation } from "app/domain/task/business/CreateTaskOperatio
 import { TaskOperator } from "app/domain/task/business/TaskOperator";
 import { TaskOperatorFactory } from "app/domain/task/business/TaskOperatorFactory";
 import { Task } from "app/domain/task/model/Task";
-import { Workload } from "app/domain/task/model/Workload";
 import { TaskRepository } from "app/domain/task/repository/TaskRepository"
 import { UCCreateTask } from "app/use_case/task/uc_create_task"
 import { MockProxy, mock } from 'jest-mock-extended';
