@@ -3,8 +3,9 @@ import { WorkloadCannotOverlapException } from "../exception/WorkloadCannotOverl
 import { Task } from "../model/Task";
 import { Workload } from "../model/Workload";
 import { TaskOperationWithExistingTask } from "./TaskOperationWithExistingTask";
+import { WorkloadOperation } from "./WorkloadOperation";
 
-export class ModifyWorkloadOperation extends TaskOperationWithExistingTask {
+export class ModifyWorkloadOperation extends WorkloadOperation {
     constructor(private id: string, private start?: Date, private end?: Date) {super()}
     doExecute(task: Task): Task {
         const workloadIndex = task.workloads.findIndex(workload => workload.id === this.id)
@@ -17,31 +18,13 @@ export class ModifyWorkloadOperation extends TaskOperationWithExistingTask {
             this.start ?? targetedWorkload.start,
             this.end ?? targetedWorkload.end)
 
-        this.checkWorkloadConsistency(modifiedWorkload)
+        this._checkWorkloadConsistency(modifiedWorkload)
         const modifiedWorkloads = [...task.workloads.splice(workloadIndex, 0)]
         
-        this.checkNoOverlaps(modifiedWorkload, modifiedWorkloads)
+        this._checkNoOverlaps(modifiedWorkload, modifiedWorkloads)
         modifiedWorkloads.push(modifiedWorkload)
 
         task._setWorkloads(modifiedWorkloads)
         return task;
-    }
-
-    private checkWorkloadConsistency(workload: Workload) {
-        if(workload.end && workload.start >= workload.end) {
-            throw new BadWorkloadEndDateException("End date must be greater than start date")
-        }
-    }
-
-    private checkNoOverlaps(workload: Workload, workloads: Workload[]) {
-        workloads.forEach(existingWorkload => {
-            if(workload.start < existingWorkload.start && 
-                ( !workload.end || 
-                    existingWorkload.end && existingWorkload.end < workload.end
-                )
-            ) {
-                throw new WorkloadCannotOverlapException()
-            }
-        })
     }
 }

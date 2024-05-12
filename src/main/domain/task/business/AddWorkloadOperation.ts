@@ -4,9 +4,9 @@ import { BadWorkloadStartDateException } from "../exception/BadWorkloadStartDate
 import { WorkloadCannotOverlapException } from "../exception/WorkloadCannotOverlapException";
 import { Task } from "../model/Task";
 import { Workload } from "../model/Workload";
-import { TaskOperationWithExistingTask } from "./TaskOperationWithExistingTask";
+import { WorkloadOperation } from "./WorkloadOperation";
 
-export class AddWorkloadOperation extends TaskOperationWithExistingTask {
+export class AddWorkloadOperation extends WorkloadOperation {
     constructor(private start: Date, private end?: Date) {super()}
     doExecute(task: Task): Task {
 
@@ -14,16 +14,15 @@ export class AddWorkloadOperation extends TaskOperationWithExistingTask {
             throw new BadWorkloadStartDateException()
         }
 
-        if(this.end && this.end <= this.start) {
-            throw new BadWorkloadEndDateException("End date must be greater than start date")
-        }
-
+        const newWorkload = new Workload(ulid(), this.start, this.end)
+        this._checkWorkloadConsistency(newWorkload)
+        
         const lastWorkload = task.lastWorkload;
         if(lastWorkload && lastWorkload.end && lastWorkload.end > this.start) {
             throw new WorkloadCannotOverlapException();
         }
     
-        task._setWorkloads([...task.workloads, new Workload(ulid(), this.start, this.end)])
+        task._setWorkloads([...task.workloads, newWorkload])
         return task;
     }
 
