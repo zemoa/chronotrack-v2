@@ -1,17 +1,13 @@
-import { BadOperationException } from "../exception/BadOperationException";
 import { BadWorkloadEndDateException } from "../exception/BadWorkloadEndDateException";
 import { BadWorkloadStartDateException } from "../exception/BadWorkloadStartDateException";
 import { WorkloadCannotOverlapException } from "../exception/WorkloadCannotOverlapException";
 import { Task } from "../model/Task";
 import { Workload } from "../model/Workload";
-import { TaskOperation } from "./TaskOperation";
+import { TaskOperationWithExistingTask } from "./TaskOperationWithExistingTask";
 
-export class AddWorkloadOperation implements TaskOperation {
-    constructor(private start: Date, private end?: Date) {}
-    execute(task?: Task): Task {
-        if(!task) {
-            throw new BadOperationException("Cannot add workload on an undefined task", "")
-        }
+export class AddWorkloadOperation extends TaskOperationWithExistingTask {
+    constructor(private start: Date, private end?: Date) {super()}
+    doExecute(task: Task): Task {
 
         if(!this.start) {
             throw new BadWorkloadStartDateException()
