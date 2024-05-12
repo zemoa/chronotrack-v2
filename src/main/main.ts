@@ -5,8 +5,10 @@ import { createRequire } from 'node:module';
 import path from 'path';
 
 global.require = createRequire(import.meta.url);
-globalThis.__filename = fileURLToPath(import.meta.url);
-globalThis.__dirname = path.dirname(__filename);
+globalThis.__dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// In order to work in WSL. Must be removed ?
+app.commandLine.appendSwitch('--no-sandbox');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {

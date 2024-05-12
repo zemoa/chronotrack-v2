@@ -5,6 +5,8 @@ import pkg from './package.json';
 
 export const builtins = ['electron', ...builtinModules.map((m) => [m, `node:${m}`]).flat()];
 
+export const esmodule = pkg.type === 'module';
+
 export const external = [...builtins, ...Object.keys('dependencies' in pkg ? (pkg.dependencies as Record<string, unknown>) : {})];
 
 export function getBuildConfig(env: ConfigEnv<'build'>): UserConfig {
@@ -20,6 +22,7 @@ export function getBuildConfig(env: ConfigEnv<'build'>): UserConfig {
       outDir: '.vite/build',
       watch: command === 'serve' ? {} : null,
       minify: command === 'build',
+      sourcemap: command === 'serve',
     },
     clearScreen: false,
   };
