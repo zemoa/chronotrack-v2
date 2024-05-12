@@ -1,10 +1,9 @@
 import { AddWorkloadOperation } from "app/domain/task/business/AddWorkloadOperation";
-import { BadOperationException } from "app/domain/task/exception/BadOperationException";
 import { BadWorkloadEndDateException } from "app/domain/task/exception/BadWorkloadEndDateException";
-import { BadWorkloadStartDateException } from "app/domain/task/exception/BadWorkloadStartDateException";
 import { WorkloadCannotOverlapException } from "app/domain/task/exception/WorkloadCannotOverlapException";
 import { Task } from "app/domain/task/model/Task";
 import { Workload } from "app/domain/task/model/Workload";
+import * as ulid from "ulid";
 
 describe('Test for adding a workload on a task', () => {
     let task: Task;
@@ -14,14 +13,17 @@ describe('Test for adding a workload on a task', () => {
         // Create an existing Workload for overlap testing
         const existingStartDateTime = new Date('2024-05-06T09:00:00');
         const existingEndDateTime = new Date('2024-05-06T12:00:00');
-        existingWorkload = new Workload(existingStartDateTime, existingEndDateTime);
+        existingWorkload = new Workload('1', existingStartDateTime, existingEndDateTime);
         task = new Task('123', 'Task Name', [existingWorkload]);
     });
 
     test('Adding a valid Workload to a Task', () => {
+        jest.mock('ulid', () => { ulid: () => '123'})
+
         const startDateTime = new Date('2024-05-06T13:00:00');
         const endDateTime = new Date('2024-05-06T15:00:00');
-        const newWorkload = new Workload(startDateTime, endDateTime);
+    
+        const newWorkload = new Workload('123', startDateTime, endDateTime);
 
         const sut = new AddWorkloadOperation(startDateTime, endDateTime);
         const expectedTask = sut.execute(task);
@@ -64,9 +66,11 @@ describe('Test for adding a workload on a task', () => {
     });
 
     test('Adding a Workload after an existing Workload without overlap', () => {
+        jest.useFakeTimers()
+            .setSystemTime(new Date('2024-05-06T09:00:00'));
         const startDateTime = new Date('2024-05-06T13:00:00');
         const endDateTime = new Date('2024-05-06T15:00:00');
-        const newWorkload = new Workload(startDateTime, endDateTime);
+        const newWorkload = new Workload(ulid(), startDateTime, endDateTime);
 
         // Add a Workload after the existing Workload
         const sut = new AddWorkloadOperation(startDateTime, endDateTime);

@@ -19,7 +19,7 @@ describe("Test for start working on a task", () => {
         taskRepository.update.mockImplementation((task) => task)
         const existingStartDateTime = new Date('2024-05-06T09:00:00');
         const existingEndDateTime = new Date('2024-05-06T12:00:00');
-        task = new Task('123', 'Task Name', [new Workload(existingStartDateTime, existingEndDateTime)]);
+        task = new Task('123', 'Task Name', [new Workload('1', existingStartDateTime, existingEndDateTime)]);
         taskRepository.findById.mockReturnValue(task)
         taskOperator.retrieve.mockReturnValue(task)
     })

@@ -1,3 +1,4 @@
+import { ulid } from "ulid";
 import { BadWorkloadEndDateException } from "../exception/BadWorkloadEndDateException";
 import { BadWorkloadStartDateException } from "../exception/BadWorkloadStartDateException";
 import { WorkloadCannotOverlapException } from "../exception/WorkloadCannotOverlapException";
@@ -21,7 +22,8 @@ export class AddWorkloadOperation extends TaskOperationWithExistingTask {
         if(lastWorkload && lastWorkload.end && lastWorkload.end > this.start) {
             throw new WorkloadCannotOverlapException();
         }
-        task._setWorkloads([...task.workloads, new Workload(this.start, this.end)])
+    
+        task._setWorkloads([...task.workloads, new Workload(ulid(), this.start, this.end)])
         return task;
     }
 
