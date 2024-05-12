@@ -45,6 +45,8 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@svelteuidev/composables": "^0.15.6",
+    "@svelteuidev/core": "^0.15.6",
     "electron-squirrel-startup": "^1.0.0",
     "reflect-metadata": "^0.2.2",
     "typedi": "^0.10.0",
