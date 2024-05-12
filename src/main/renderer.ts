@@ -28,4 +28,12 @@
 
 import './index.css';
 
+import App from './ui/App.svelte'
+
+const app = new App({
+  target: document.getElementById('app')!,
+})
+
+export default app
+
 console.log('👋 This message is being logged by "renderer.ts", included via Vite');
