@@ -12,4 +12,11 @@ export class Workload {
     get end(): Date | undefined {
         return this._end
     }
+
+    _setStart(start: Date) {
+        this._start = start
+    }
+    _setEnd(end: Date) {
+        this._end = end
+    }
 }

@@ -3,7 +3,8 @@ import { BadWorkloadEndDateException } from "app/domain/task/exception/BadWorklo
 import { WorkloadCannotOverlapException } from "app/domain/task/exception/WorkloadCannotOverlapException";
 import { Task } from "app/domain/task/model/Task";
 import { Workload } from "app/domain/task/model/Workload";
-import * as ulid from "ulid";
+
+jest.mock('ulid', () => ({ulid: () => '123'}))
 
 describe('Test for adding a workload on a task', () => {
     let task: Task;
@@ -17,9 +18,9 @@ describe('Test for adding a workload on a task', () => {
         task = new Task('123', 'Task Name', [existingWorkload]);
     });
 
+    
     test('Adding a valid Workload to a Task', () => {
-        jest.mock('ulid', () => { ulid: () => '123'})
-
+    
         const startDateTime = new Date('2024-05-06T13:00:00');
         const endDateTime = new Date('2024-05-06T15:00:00');
     
@@ -70,7 +71,7 @@ describe('Test for adding a workload on a task', () => {
             .setSystemTime(new Date('2024-05-06T09:00:00'));
         const startDateTime = new Date('2024-05-06T13:00:00');
         const endDateTime = new Date('2024-05-06T15:00:00');
-        const newWorkload = new Workload(ulid(), startDateTime, endDateTime);
+        const newWorkload = new Workload('123', startDateTime, endDateTime);
 
         // Add a Workload after the existing Workload
         const sut = new AddWorkloadOperation(startDateTime, endDateTime);
