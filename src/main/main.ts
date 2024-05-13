@@ -3,6 +3,8 @@ import { app, BrowserWindow } from 'electron';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import path from 'path';
+import { IPCConfigurer } from './infrastructure/ipc/IPCConfigurer';
+import { initApp } from './init';
 
 global.require = createRequire(import.meta.url);
 globalThis.__dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -23,6 +25,7 @@ const createWindow = () => {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
+    frame: false
   });
 
   // and load the index.html of the app.
@@ -34,6 +37,8 @@ const createWindow = () => {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+
+  initApp()
 };
 
 // This method will be called when Electron has finished

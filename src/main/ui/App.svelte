@@ -1,10 +1,17 @@
 <script lang="ts">
-    
-    export let name: string;
+    import { AppShell, Header, Navbar } from "@svelteuidev/core";
+    import Menubar from "./components/menubar/Menubar.svelte";
+
 </script>
 <style>
-    h1 {
-        color: purple;
-    }
 </style>
-<h1>Hello {name}!</h1>
+<AppShell>
+	<Navbar slot="navbar">
+		<Menubar></Menubar>
+	</Navbar>
+	<Header height="100%" slot="header">
+		
+	</Header>
+
+	<slot>This is the main content</slot>
+</AppShell>

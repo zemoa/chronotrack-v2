@@ -29,6 +29,7 @@
 import './index.css';
 
 import App from './ui/App.svelte'
+import log from 'electron-log/renderer'
 
 const app = new App({
   target: document.getElementById('app')!,
@@ -36,4 +37,4 @@ const app = new App({
 
 export default app
 
-console.log('👋 This message is being logged by "renderer.ts", included via Vite');
+log.debug('👋 This message is being logged by "renderer.ts", included via Vite');
