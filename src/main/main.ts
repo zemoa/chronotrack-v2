@@ -1,9 +1,8 @@
-import 'reflect-metadata';
 import { app, BrowserWindow } from 'electron';
-import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
 import path from 'path';
-import { IPCConfigurer } from './infrastructure/ipc/IPCConfigurer';
+import 'reflect-metadata';
 import { initApp } from './init';
 
 global.require = createRequire(import.meta.url);
@@ -37,14 +36,15 @@ const createWindow = () => {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
-
-  initApp()
 };
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () => {
+  initApp()
+  createWindow()
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

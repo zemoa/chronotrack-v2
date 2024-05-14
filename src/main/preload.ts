@@ -2,15 +2,16 @@
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 
 import { contextBridge, ipcRenderer } from "electron";
-import { WindowApi } from "./infrastructure/ipc/windowapi/WindowApi";
-import { ipcConfigurer } from "./init";
+import { registeredHandlers } from "./infrastructure/ipc/RegisteredHandlerCatalog";
+
 declare global {
     interface Window {
-        windowApi: WindowApi;
+        windowApi: {
+            maxunmax: () => void
+        }
     }
 }
-
-ipcConfigurer.ipcHandlers.forEach(ipcHandler => {
-    contextBridge.exposeInMainWorld(ipcHandler.name, ipcHandler.expose(ipcRenderer))
-})
-
+registeredHandlers
+contextBridge.exposeInMainWorld('windowApi', {
+    maxunmax: () => ipcRenderer.invoke("window:maxunmax")
+  })

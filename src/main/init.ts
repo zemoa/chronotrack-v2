@@ -1,18 +1,20 @@
-import log from 'electron-log/main'
-import { IPCConfigurer } from './infrastructure/ipc/IPCConfigurer';
-import { WindowApidHandler } from './infrastructure/ipc/windowapi/WindowApiHandler';
-import { MaxUnMaximizeHandler } from './infrastructure/ipc/windowapi/MaxUnMaximizeHandler';
+import { ipcMain } from 'electron';
+import log from 'electron-log/main';
+import { IPCRegisterer } from './infrastructure/ipc/IPCRegisterer';
+import { RegisteredHandlerCatalog, registeredHandlers } from './infrastructure/ipc/RegisteredHandlerCatalog';
 
-export const ipcConfigurer = new IPCConfigurer()
-
+export let registeredHandlerCatalog: RegisteredHandlerCatalog
 export function initApp() {
     log.initialize();
 
-    initIpc()
+    registeredHandlerCatalog = initIpc()
 }
 
-function initIpc() {
-    const windowApiHandlers = new WindowApidHandler()
-    ipcConfigurer.addHandler(windowApiHandlers)
-    ipcConfigurer.init()
+
+function initIpc(): RegisteredHandlerCatalog {
+    log.debug("InitIpc")
+    const ipcRegister = new IPCRegisterer()
+    registeredHandlers.forEach(handler => ipcRegister.register(handler))
+    ipcRegister.connect(ipcMain)
+    return ipcRegister
 }

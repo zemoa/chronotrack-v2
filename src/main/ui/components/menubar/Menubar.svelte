@@ -2,7 +2,7 @@
     import { ActionIcon } from "@svelteuidev/core";
     import { Cross1, EnterFullScreen, Minus } from "svelte-radix";
     function fullscreen() {
-        window.windowApi.maximize()
+        window.windowApi.maxunmax()
     }
     function close() {
         window.close()
