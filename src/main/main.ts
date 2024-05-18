@@ -15,16 +15,15 @@ globalThis.__dirname = path.dirname(fileURLToPath(import.meta.url));
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
-
-const createWindow = () => {
+export let mainWindow: BrowserWindow
+const createWindow = () : BrowserWindow => {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
-    // frame: false
   });
 
   // and load the index.html of the app.
@@ -36,14 +35,16 @@ const createWindow = () => {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+
+  return mainWindow
 };
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-  initApp()
-  createWindow()
+  const mainWindow = createWindow()
+  initApp(mainWindow)
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common

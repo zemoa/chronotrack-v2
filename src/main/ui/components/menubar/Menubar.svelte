@@ -1,6 +1,9 @@
 <script lang="ts">
     import { ActionIcon } from "@svelteuidev/core";
     import { Cross1, EnterFullScreen, Minus } from "svelte-radix";
+    function minimize() {
+        window.windowApi.minimize()
+    }
     function fullscreen() {
         window.windowApi.maxunmax()
     }
@@ -9,7 +12,7 @@
     }
 </script>
 <menu>
-<ActionIcon>
+<ActionIcon on:click={minimize}>
     <Minus />
 </ActionIcon>
 <ActionIcon on:click={fullscreen}>

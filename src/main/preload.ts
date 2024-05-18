@@ -2,7 +2,8 @@
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 
 import { contextBridge, ipcRenderer } from "electron";
-import { WindowApi, ipc_api_catalog } from "./ipc_catalog_api";
+import { WindowApi } from "./infrastructure/ipc/ipc_ui_api";
+import { IPC_MAXUNMAX, IPC_MINIMIZE } from "./infrastructure/ipc/ipc_catalog_api";
 
 
 declare global {
@@ -10,12 +11,8 @@ declare global {
         windowApi: WindowApi
     }
 }
-ipc_api_catalog.forEach(ipcApiEntry => {
-    const api = ipcApiEntry.channels.reduce((api, channel) => {
-        return {
-            ...api,
-            [channel.methodName]: () => ipcRenderer.invoke(channel.name)
-        }
-    }, ipcApiEntry)
-    contextBridge.exposeInMainWorld(ipcApiEntry.name, api)
-})
+
+contextBridge.exposeInMainWorld("windowApi", {
+maxunmax: () => ipcRenderer.invoke(IPC_MAXUNMAX),
+minimize: () => ipcRenderer.invoke(IPC_MINIMIZE)
+} as WindowApi)

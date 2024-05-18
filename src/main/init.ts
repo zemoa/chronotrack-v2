@@ -1,20 +1,20 @@
-import { ipcMain } from 'electron';
+import { BrowserWindow, ipcMain } from 'electron';
 import log from 'electron-log/main';
 import { IPCRegisterer } from './infrastructure/ipc/IPCRegisterer';
-import { RegisteredHandlerCatalog, registeredHandlers } from './infrastructure/ipc/RegisteredHandlerCatalog';
+import { IPCMaxUnmax } from './infrastructure/ipc/window-api/IPCMaxUnmax';
+import { IPCMinimize } from './infrastructure/ipc/window-api/IPCMinimize';
 
-export let registeredHandlerCatalog: RegisteredHandlerCatalog
-export function initApp() {
+export function initApp(mainWindow: BrowserWindow) {
     log.initialize();
 
-    registeredHandlerCatalog = initIpc()
+    initIpc(mainWindow)
 }
 
-
-function initIpc(): RegisteredHandlerCatalog {
+function initIpc(mainWindow: BrowserWindow) {
     log.debug("InitIpc")
     const ipcRegister = new IPCRegisterer()
-    registeredHandlers.forEach(handler => ipcRegister.register(handler))
+    ipcRegister.register(new IPCMaxUnmax(mainWindow))
+    ipcRegister.register(new IPCMinimize(mainWindow))
     ipcRegister.connect(ipcMain)
     return ipcRegister
 }
