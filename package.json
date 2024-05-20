@@ -33,6 +33,7 @@
     "jest": "^29.7.0",
     "jest-mock-extended": "^3.0.7",
     "svelte": "^4.2.16",
+    "svelte-radix": "^1.1.0",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "typescript": "~5.4.5",
@@ -47,6 +48,7 @@
   "dependencies": {
     "@svelteuidev/composables": "^0.15.6",
     "@svelteuidev/core": "^0.15.6",
+    "electron-log": "^5.1.4",
     "electron-squirrel-startup": "^1.0.0",
     "reflect-metadata": "^0.2.2",
     "typedi": "^0.10.0",
